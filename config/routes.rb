@@ -17,4 +17,5 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   resource :sign_up
+  resources :short_urls, only: [ :index, :create, :destroy ]
 end
