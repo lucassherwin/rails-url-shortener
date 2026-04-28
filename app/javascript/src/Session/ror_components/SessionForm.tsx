@@ -49,42 +49,62 @@ const SessionForm: React.FC<SessionFormProps> = ({
         <p className="text-gray-400 text-sm mt-2">Please sign in to continue</p>
 
         {!showSignIn && (
-          <div className="flex items-center mt-6 w-full bg-white/5 ring-2 ring-white/10 focus-within:ring-indigo-500/60 h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all ">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              className="text-white/60"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              {" "}
-              <circle cx="12" cy="8" r="5" />{" "}
-              <path d="M20 21a8 8 0 0 0-16 0" />{" "}
-            </svg>
-            <input
-              type="text"
-              name="firstname"
-              placeholder="First Name"
-              className="w-full bg-transparent text-white placeholder-white/60 border-none outline-none "
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              required
-            />
-            <input
-              type="text"
-              name="lastname"
-              placeholder="Last Name"
-              className="w-full bg-transparent text-white placeholder-white/60 border-none outline-none "
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              required
-            />
-          </div>
+          <>
+            <div className="flex items-center mt-6 w-full bg-white/5 ring-2 ring-white/10 focus-within:ring-indigo-500/60 h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all ">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                className="text-white/60"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                {" "}
+                <circle cx="12" cy="8" r="5" />{" "}
+                <path d="M20 21a8 8 0 0 0-16 0" />{" "}
+              </svg>
+              <input
+                type="text"
+                name="firstname"
+                placeholder="First Name"
+                className="w-full bg-transparent text-white placeholder-white/60 border-none outline-none "
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                required
+              />
+            </div>
+            <div className="flex items-center mt-4 w-full bg-white/5 ring-2 ring-white/10 focus-within:ring-indigo-500/60 h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all ">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                className="text-white/60"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                {" "}
+                <circle cx="12" cy="8" r="5" />{" "}
+                <path d="M20 21a8 8 0 0 0-16 0" />{" "}
+              </svg>
+              <input
+                type="text"
+                name="lastname"
+                placeholder="Last Name"
+                className="w-full bg-transparent text-white placeholder-white/60 border-none outline-none "
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                required
+              />
+            </div>
+          </>
         )}
 
         <div className="flex items-center w-full mt-4 bg-white/5 ring-2 ring-white/10 focus-within:ring-indigo-500/60 h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all ">
