@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="dark">
   <head>
     <title><%= content_for(:title) || "Url Shortener" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -21,6 +21,8 @@
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app %>
     <%= javascript_pack_tag "application" %>
+    <%= stylesheet_pack_tag "application", media: "all" %>
+
   </head>
 
   <body>

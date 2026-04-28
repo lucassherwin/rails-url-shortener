@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@source "../../views/**/*.{erb,html}";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  body {
+    @apply bg-gray-950 text-white;
+  }
+}
