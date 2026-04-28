@@ -1,15 +1,19 @@
 import React, { useState } from "react";
+import useCsrfToken from "../../hooks/useCsrfToken";
 
 interface SessionFormProps {
-  submitPath: string;
+  signInPath: string;
+  signUpPath: string;
   newPasswordPath: string;
 }
 
 const SessionForm: React.FC<SessionFormProps> = ({
-  submitPath,
+  signInPath,
+  signUpPath,
   newPasswordPath,
 }) => {
   const [showSignIn, setShowSignIn] = useState(true);
+  const csrfToken = useCsrfToken();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -38,10 +42,11 @@ const SessionForm: React.FC<SessionFormProps> = ({
   return (
     <div className="min-h-screen flex items-center justify-center">
       <form
-        action={submitPath}
+        action={showSignIn ? signInPath : signUpPath}
         method="post"
         className="w-full sm:w-87.5 text-center bg-white/6 border border-white/10 rounded-2xl px-8"
       >
+        <input type="hidden" name="authenticity_token" value={csrfToken} />
         <h1 className="text-white text-3xl mt-10 font-medium">
           {showSignIn ? "Login" : "Sign up"}
         </h1>
@@ -73,7 +78,7 @@ const SessionForm: React.FC<SessionFormProps> = ({
                 placeholder="First Name"
                 className="w-full bg-transparent text-white placeholder-white/60 border-none outline-none "
                 value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -100,7 +105,7 @@ const SessionForm: React.FC<SessionFormProps> = ({
                 placeholder="Last Name"
                 className="w-full bg-transparent text-white placeholder-white/60 border-none outline-none "
                 value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -187,10 +192,10 @@ const SessionForm: React.FC<SessionFormProps> = ({
         </p>
       </form>
       {/* Soft Backdrop*/}
-      <div className="fixed inset-0 -z-1 pointer-events-none">
+      {/* <div className="fixed inset-0 -z-1 pointer-events-none">
         <div className="absolute left-1/2 top-20 -translate-x-1/2 w-245 h-115 bg-linear-to-tr from-indigo-800/35 to-transparent rounded-full blur-3xl" />
         <div className="absolute right-12 bottom-10 w-105 h-55 bg-linear-to-bl from-indigo-700/35 to-transparent rounded-full blur-2xl" />
-      </div>
+      </div> */}
     </div>
   );
 };

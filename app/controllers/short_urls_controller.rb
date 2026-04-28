@@ -1,8 +1,14 @@
 class ShortUrlsController < ApplicationController
-  before_action :set_short_url, only: [:destroy]
+  allow_unauthenticated_access
+  layout "main_layout"
+  before_action :set_short_url, only: [ :destroy ]
 
   def index
-    @short_urls = Current.user.short_urls.order(created_at: :desc)
+    # @short_urls = Current.user.short_urls.order(created_at: :desc)
+  end
+
+  def show
+    @user = Current.user
   end
 
   def create
