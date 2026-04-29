@@ -26,7 +26,7 @@
       <div class="absolute right-12 bottom-10 w-105 h-55 bg-linear-to-bl from-indigo-700/35 to-transparent rounded-full blur-2xl"></div>
     </div>
 
-    <%= render "shared/navbar" unless controller_name == "sessions" && action_name == "new" %>
+    <%= render "shared/navbar" unless controller_name.in?(["sessions", "sign_ups"]) && action_name == "new" %>
     <%= yield %>
   </body>
 </html>
