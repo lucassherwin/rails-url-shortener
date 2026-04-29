@@ -1,19 +1,19 @@
 import React, { useState } from "react";
-import useCsrfToken from "../../hooks/useCsrfToken";
 
 interface SessionFormProps {
   signInPath: string;
   signUpPath: string;
   newPasswordPath: string;
+  csrfToken: string;
 }
 
 const SessionForm: React.FC<SessionFormProps> = ({
   signInPath,
   signUpPath,
   newPasswordPath,
+  csrfToken,
 }) => {
   const [showSignIn, setShowSignIn] = useState(true);
-  const csrfToken = useCsrfToken();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
