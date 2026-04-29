@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
 
-interface SessionFormProps {
-  signInPath: string;
+interface SignUpProps {
   signUpPath: string;
-  newPasswordPath: string;
   csrfToken: string;
   createAlert: string | null;
   userData?: any; // TODO any for now
 }
 
-const SessionForm: React.FC<SessionFormProps> = ({
-  signInPath,
+const SignUp: React.FC<SignUpProps> = ({
   signUpPath,
-  newPasswordPath,
   csrfToken,
   createAlert,
   userData,
@@ -22,15 +18,6 @@ const SessionForm: React.FC<SessionFormProps> = ({
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  useEffect(() => {
-    if (userData) {
-      setFirstName(userData.first_name || "");
-      setLastName(userData.last_name || "");
-      setUsername(userData.username || "");
-      setEmail(userData.email_address || "");
-    }
-  }, [userData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -55,9 +42,18 @@ const SessionForm: React.FC<SessionFormProps> = ({
     }
   };
 
-  const handleSignUpRedirect = () => {
-    window.location.href = "/sign_up/new";
+  const handleLoginRedirect = () => {
+    window.location.href = "/session/new";
   };
+
+  useEffect(() => {
+    if (userData) {
+      setFirstName(userData.first_name || "");
+      setLastName(userData.last_name || "");
+      setUsername(userData.username || "");
+      setEmail(userData.email_address || "");
+    }
+  }, [userData]);
 
   return (
     <div className="min-h-screen flex items-center justify-center">
@@ -67,9 +63,92 @@ const SessionForm: React.FC<SessionFormProps> = ({
         className="w-full sm:w-87.5 text-center bg-white/6 border border-white/10 rounded-2xl px-8"
       >
         <input type="hidden" name="authenticity_token" value={csrfToken} />
-        <h1 className="text-white text-3xl mt-10 font-medium">Login</h1>
+        <h1 className="text-white text-3xl mt-10 font-medium">Sign up</h1>
 
-        <p className="text-gray-400 text-sm mt-2">Please sign in to continue</p>
+        <p className="text-gray-400 text-sm mt-2">Please sign up to continue</p>
+        <>
+          <div className="flex items-center mt-6 w-full bg-white/5 ring-2 ring-white/10 focus-within:ring-indigo-500/60 h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all ">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              className="text-white/60"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              {" "}
+              <circle cx="12" cy="8" r="5" />{" "}
+              <path d="M20 21a8 8 0 0 0-16 0" />{" "}
+            </svg>
+            <input
+              type="text"
+              name="user[first_name]"
+              placeholder="First Name"
+              className="w-full bg-transparent text-white placeholder-white/60 border-none outline-none "
+              value={firstName}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="flex items-center mt-4 w-full bg-white/5 ring-2 ring-white/10 focus-within:ring-indigo-500/60 h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all ">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              className="text-white/60"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              {" "}
+              <circle cx="12" cy="8" r="5" />{" "}
+              <path d="M20 21a8 8 0 0 0-16 0" />{" "}
+            </svg>
+            <input
+              type="text"
+              name="user[last_name]"
+              placeholder="Last Name"
+              className="w-full bg-transparent text-white placeholder-white/60 border-none outline-none "
+              value={lastName}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="flex items-center mt-4 w-full bg-white/5 ring-2 ring-white/10 focus-within:ring-indigo-500/60 h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all ">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              className="text-white/60"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              {" "}
+              <circle cx="12" cy="8" r="5" />{" "}
+              <path d="M20 21a8 8 0 0 0-16 0" />{" "}
+            </svg>
+            <input
+              type="text"
+              name="user[username]"
+              placeholder="Username"
+              className="w-full bg-transparent text-white placeholder-white/60 border-none outline-none "
+              value={username}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </>
 
         <div className="flex items-center w-full mt-4 bg-white/5 ring-2 ring-white/10 focus-within:ring-indigo-500/60 h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all ">
           <svg
@@ -137,14 +216,14 @@ const SessionForm: React.FC<SessionFormProps> = ({
           type="submit"
           className="mt-2 w-full h-11 rounded-full text-white bg-indigo-600 hover:bg-indigo-500 transition "
         >
-          Login
+          Sign up
         </button>
 
         <p
-          onClick={handleSignUpRedirect}
+          onClick={handleLoginRedirect}
           className="text-gray-400 text-sm mt-3 mb-11 cursor-pointer"
         >
-          Don't have an account?
+          Already have an account?
           <span className="text-indigo-400 hover:underline ml-1">
             click here
           </span>
@@ -154,6 +233,4 @@ const SessionForm: React.FC<SessionFormProps> = ({
   );
 };
 
-export default SessionForm;
-
-// form design from https://prebuiltui.com/components/login-form
+export default SignUp;

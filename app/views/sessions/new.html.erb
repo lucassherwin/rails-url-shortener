@@ -1,9 +1,11 @@
-<%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
 <%= tag.div(flash[:notice], style: "color:green") if flash[:notice] %>
 
 <%= react_component("SessionForm", props: {
     signInPath: session_path,
     signUpPath: sign_up_path,
     newPasswordPath: new_password_path,
-    csrfToken: form_authenticity_token
-  }, prerender: true) %>
+    csrfToken: form_authenticity_token,
+    createAlert: flash[:create_alert],
+    userData: @user
+  }, prerender: true)
+%>
