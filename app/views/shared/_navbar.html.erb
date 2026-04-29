@@ -1,0 +1,19 @@
+<nav class="w-full border-b border-white/10 bg-white/5 backdrop-blur-sm">
+  <div class="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
+    <div class="flex items-center gap-6">
+      <%= link_to "Home", root_path, class: "text-sm font-medium text-white/80 hover:text-white transition-colors" %>
+      <% if authenticated? %>
+        <%= link_to "My URLs", short_urls_path, class: "text-sm font-medium text-white/80 hover:text-white transition-colors" %>
+      <% end %>
+    </div>
+
+    <div>
+      <% if authenticated? %>
+        <%= button_to "Log Out", session_path, method: :delete,
+              class: "text-sm font-medium text-white/80 hover:text-white transition-colors cursor-pointer bg-transparent border-none p-0" %>
+      <% else %>
+        <%= link_to "Log In", new_session_path, class: "text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors" %>
+      <% end %>
+    </div>
+  </div>
+</nav>
