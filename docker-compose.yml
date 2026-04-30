@@ -1,0 +1,61 @@
+name: url_shortener
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: "${DB_NAME}"
+      POSTGRES_PASSWORD: "${DB_PASS}"
+      # POSTGRES_DB omitted — db:prepare creates all databases (development, test)
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+      - "3035:3035"
+    environment:
+      DATABASE_HOST: db
+      DB_NAME: "${DB_NAME}"
+      DB_PASS: "${DB_PASS}"
+      # Bind webpack-dev-server to all interfaces so the host can reach it via
+      # the forwarded port. The browser-side WS URL is pinned to localhost:3035
+      # in shakapacker.yml so HMR works correctly.
+      # foreman uses PORT as its base port (default 5000); set to 3000 so the
+      # rails process gets PORT=3000 matching the mapped host port
+      PORT: "3000"
+      # Bind Rails to all interfaces so it's reachable from outside the container
+      RAILS_BIND: "0.0.0.0"
+      SHAKAPACKER_DEV_SERVER_HOST: "0.0.0.0"
+      # Pass master key from host shell: export RAILS_MASTER_KEY=$(cat config/master.key)
+      RAILS_MASTER_KEY: "${RAILS_MASTER_KEY}"
+      # Explicit BUNDLE_PATH prevents host .bundle/config from overriding the
+      # container's gem install location
+      BUNDLE_PATH: /usr/local/bundle
+    volumes:
+      - .:/rails
+      # node_modules: anonymous volume populated from image layer, shadowing the
+      # bind mount so host-platform packages don't leak in
+      - /rails/node_modules
+      - /rails/tmp/cache
+      # Named volume for gems: persists across container restarts so bundle install
+      # only runs on first boot (or after Gemfile changes). The entrypoint runs
+      # `bundle check || bundle install` to populate it on first use.
+      - bundle:/usr/local/bundle
+
+volumes:
+  postgres_data:
+  bundle:

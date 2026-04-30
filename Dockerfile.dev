@@ -1,0 +1,59 @@
+# syntax=docker/dockerfile:1
+# Development image — NOT for production. Use docker-compose.yml to run.
+
+ARG RUBY_VERSION=3.4.9
+FROM docker.io/library/ruby:${RUBY_VERSION}-slim
+
+WORKDIR /rails
+
+# System packages needed to compile native gems and run the app
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y \
+      build-essential \
+      ca-certificates \
+      curl \
+      git \
+      gnupg \
+      libpq-dev \
+      libvips \
+      libyaml-dev \
+      pkg-config \
+      postgresql-client \
+      procps && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+# Node 22 via NodeSource (npm@11.6.2 requires Node 20+)
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
+    apt-get install --no-install-recommends -y nodejs && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+RUN gem install foreman --no-document
+
+ENV RAILS_ENV="development" \
+    BUNDLE_PATH="/usr/local/bundle" \
+    BUNDLE_WITHOUT=""
+
+# Install gems — copy manifests first so this layer is cached until they change
+COPY vendor/ ./vendor/
+COPY Gemfile Gemfile.lock ./
+RUN bundle install && \
+    rm -rf "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
+    bundle exec bootsnap precompile -j 1 --gemfile
+
+# Install JS packages — reproducible from lock file
+COPY package.json package-lock.json ./
+RUN npm ci
+
+# Copy app source and precompile bootsnap cache
+COPY . .
+RUN bundle exec bootsnap precompile -j 1 app/ lib/
+
+EXPOSE 3000
+EXPOSE 3035
+
+ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+# Run foreman as a system gem (not via `bundle exec`) — foreman is not in the
+# Gemfile so `bundle exec foreman` fails. Calling it directly lets foreman
+# inherit the full environment (including BUNDLE_PATH) and pass it to the child
+# processes in Procfile.dev, which use `bundle exec` themselves.
+CMD ["foreman", "start", "-f", "Procfile.dev"]
