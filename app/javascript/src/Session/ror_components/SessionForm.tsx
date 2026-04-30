@@ -2,48 +2,23 @@ import React, { useEffect, useState } from "react";
 
 interface SessionFormProps {
   signInPath: string;
-  signUpPath: string;
   newPasswordPath: string;
   csrfToken: string;
-  createAlert: string | null;
-  userData?: any; // TODO any for now
+  alertMessage: string | null;
 }
 
 const SessionForm: React.FC<SessionFormProps> = ({
   signInPath,
-  signUpPath,
   newPasswordPath,
   csrfToken,
-  createAlert,
-  userData,
+  alertMessage,
 }) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  useEffect(() => {
-    if (userData) {
-      setFirstName(userData.first_name || "");
-      setLastName(userData.last_name || "");
-      setUsername(userData.username || "");
-      setEmail(userData.email_address || "");
-    }
-  }, [userData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     switch (name) {
-      case "user[first_name]":
-        setFirstName(value);
-        break;
-      case "user[last_name]":
-        setLastName(value);
-        break;
-      case "user[username]":
-        setUsername(value);
-        break;
       case "user[email_address]":
         setEmail(value);
         break;
@@ -62,12 +37,18 @@ const SessionForm: React.FC<SessionFormProps> = ({
   return (
     <div className="min-h-screen flex items-center justify-center">
       <form
-        action={signUpPath}
+        action={signInPath}
         method="post"
         className="w-full sm:w-87.5 text-center bg-white/6 border border-white/10 rounded-2xl px-8"
       >
         <input type="hidden" name="authenticity_token" value={csrfToken} />
         <h1 className="text-white text-3xl mt-10 font-medium">Login</h1>
+
+        {alertMessage && (
+          <div className="mt-4 p-3 bg-red-500/10 text-red-400 rounded">
+            {alertMessage}
+          </div>
+        )}
 
         <p className="text-gray-400 text-sm mt-2">Please sign in to continue</p>
 
@@ -128,25 +109,24 @@ const SessionForm: React.FC<SessionFormProps> = ({
         </div>
 
         <div className="mt-4 text-left">
-          <button className="text-sm text-indigo-400 hover:underline">
+          <button className="text-sm text-indigo-400 hover:underline cursor-pointer">
             Forget password?
           </button>
         </div>
 
         <button
           type="submit"
-          className="mt-2 w-full h-11 rounded-full text-white bg-indigo-600 hover:bg-indigo-500 transition "
+          className="mt-2 w-full h-11 rounded-full text-white bg-indigo-600 hover:bg-indigo-500 transition cursor-pointer"
         >
           Login
         </button>
 
         <p
-          onClick={handleSignUpRedirect}
-          className="text-gray-400 text-sm mt-3 mb-11 cursor-pointer"
+          className="text-gray-400 text-sm mt-3 mb-11"
         >
           Don't have an account?
-          <span className="text-indigo-400 hover:underline ml-1">
-            click here
+          <span className="text-indigo-400 hover:underline ml-1 cursor-pointer" onClick={handleSignUpRedirect}>
+            Click here
           </span>
         </p>
       </form>
