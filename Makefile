@@ -22,6 +22,7 @@ clean: ## Stop all services and delete all volumes including the database
 	docker compose down -v
 
 restart: ## Restart the app container without touching the database
+	@rm -f tmp/pids/server.pid
 	docker compose restart app
 
 logs: ## Follow logs for all services
