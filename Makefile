@@ -1,4 +1,4 @@
-.PHONY: help build up down clean restart logs console shell migrate test routes npm
+.PHONY: help build up down clean restart logs console shell migrate test routes npm npx
 
 export RAILS_MASTER_KEY ?= $(shell cat config/master.key 2>/dev/null)
 
@@ -45,3 +45,6 @@ routes: ## Print Rails routes (requires running container)
 
 npm: ## Run npm install inside the app container (requires running container)
 	docker compose exec app npm install
+
+npx: ## Run an arbitrary npx command inside the app container (requires running container)
+	docker compose exec app npx $(filter-out $@,$(MAKECMDGOALS))
