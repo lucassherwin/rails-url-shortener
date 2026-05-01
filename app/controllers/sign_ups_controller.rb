@@ -1,6 +1,5 @@
 class SignUpsController < ApplicationController
   allow_unauthenticated_access only: [ :create, :new ]
-  layout "main_layout"
 
   def new
   end

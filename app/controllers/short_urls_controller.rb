@@ -1,6 +1,5 @@
 class ShortUrlsController < ApplicationController
   allow_unauthenticated_access
-  layout "main_layout"
   before_action :set_short_url, only: [ :destroy ]
 
   def index
