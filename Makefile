@@ -1,4 +1,4 @@
-.PHONY: help build up down clean restart logs console shell migrate test routes
+.PHONY: help build up down clean restart logs console shell migrate test routes npm
 
 export RAILS_MASTER_KEY ?= $(shell cat config/master.key 2>/dev/null)
 
@@ -42,3 +42,6 @@ test: ## Run the test suite (requires running container)
 
 routes: ## Print Rails routes (requires running container)
 	docker compose exec app bin/rails routes
+
+npm: ## Run npm install inside the app container (requires running container)
+	docker compose exec app npm install

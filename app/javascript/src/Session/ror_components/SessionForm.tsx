@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AlertMessage from "../../design-system/AlertMessage";
+import Alert from "../../design-system/Alert";
 import FormCard from "../../design-system/FormCard";
 import FormInput from "../../design-system/FormInput";
 import Icon from "../../design-system/Icon";
@@ -42,7 +42,7 @@ const SessionForm: React.FC<SessionFormProps> = ({
       title="Login"
       subtitle="Please sign in to continue"
     >
-      <AlertMessage message={alertMessage} />
+      {alertMessage && <Alert description={alertMessage} />}
 
       <FormInput
         icon={<Icon name="email" size={14} className="text-white/75" />}
@@ -75,7 +75,9 @@ const SessionForm: React.FC<SessionFormProps> = ({
       <RedirectPrompt
         prompt="Don't have an account?"
         linkText="Click here"
-        onClick={() => { window.location.href = "/sign_up/new"; }}
+        onClick={() => {
+          window.location.href = "/sign_up/new";
+        }}
       />
     </FormCard>
   );
