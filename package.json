@@ -7,6 +7,7 @@
     "defaults"
   ],
   "dependencies": {
+    "@tanstack/react-query": "^5.100.7",
     "compression-webpack-plugin": "^12.0.0",
     "css-loader": "7.1.4",
     "css-minimizer-webpack-plugin": "8.0.0",

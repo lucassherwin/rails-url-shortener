@@ -3,11 +3,11 @@ class ShortUrlsController < ApplicationController
   before_action :set_short_url, only: [ :destroy ]
 
   def index
-    # @short_urls = Current.user.short_urls.order(created_at: :desc)
+    @short_urls = Current.user.short_urls.order(created_at: :desc)
   end
 
   def show
-    @user = Current.user
+    @short_url = nil # TODO -> find by ID or alias
   end
 
   def create
