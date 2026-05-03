@@ -1,12 +1,12 @@
 import React from "react";
 
-interface RedirectPromptProps {
+interface TextLinkProps {
   prompt: string;
   linkText: string;
   onClick: () => void;
 }
 
-const RedirectPrompt: React.FC<RedirectPromptProps> = ({
+const TextLink: React.FC<TextLinkProps> = ({
   prompt,
   linkText,
   onClick,
@@ -24,4 +24,4 @@ const RedirectPrompt: React.FC<RedirectPromptProps> = ({
   );
 };
 
-export default RedirectPrompt;
+export default TextLink;

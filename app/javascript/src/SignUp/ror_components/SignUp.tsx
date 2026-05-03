@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import FormCard from "../../design-system/FormCard";
-import FormInput from "../../design-system/FormInput";
+import FormInput from "../../design-system/Input";
 import Icon from "../../design-system/Icon";
-import RedirectPrompt from "../../design-system/RedirectPrompt";
-import SubmitButton from "../../design-system/SubmitButton";
+import RedirectPrompt from "../../design-system/TextLink";
+import SubmitButton from "../../design-system/Button";
 
 interface SignUpProps {
   signUpPath: string;

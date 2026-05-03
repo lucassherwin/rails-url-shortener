@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Alert from "../../design-system/Alert";
 import FormCard from "../../design-system/FormCard";
-import FormInput from "../../design-system/FormInput";
+import Input from "../../design-system/Input";
 import Icon from "../../design-system/Icon";
-import RedirectPrompt from "../../design-system/RedirectPrompt";
-import SubmitButton from "../../design-system/SubmitButton";
+import TextLink from "../../design-system/TextLink";
+import SubmitButton from "../../design-system/Button";
 
 interface SessionFormProps {
   signInPath: string;
@@ -44,7 +44,7 @@ const SessionForm: React.FC<SessionFormProps> = ({
     >
       {alertMessage && <Alert description={alertMessage} />}
 
-      <FormInput
+      <Input
         icon={<Icon name="email" size={14} className="text-white/75" />}
         type="email"
         name="user[email_address]"
@@ -54,7 +54,7 @@ const SessionForm: React.FC<SessionFormProps> = ({
         required
       />
 
-      <FormInput
+      <Input
         icon={<Icon name="password" size={14} className="text-white/75" />}
         type="password"
         name="user[password]"
@@ -72,7 +72,7 @@ const SessionForm: React.FC<SessionFormProps> = ({
 
       <SubmitButton label="Login" />
 
-      <RedirectPrompt
+      <TextLink
         prompt="Don't have an account?"
         linkText="Click here"
         onClick={() => {
