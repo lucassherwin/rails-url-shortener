@@ -15,3 +15,4 @@
 // const imagePath = (name) => images(name, true)
 
 import '../src/application.css';
+import '../src/styles/globals.css';
