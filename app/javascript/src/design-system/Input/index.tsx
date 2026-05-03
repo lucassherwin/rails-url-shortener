@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/input-group";
 
 interface FormInputProps {
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   type: string;
   name: string;
   placeholder: string;
@@ -32,9 +32,11 @@ const Input: React.FC<FormInputProps> = ({
         has-[[data-slot=input-group-control]:focus-visible]:border-transparent has-[[data-slot=input-group-control]:focus-visible]:ring-2
         has-[[data-slot=input-group-control]:focus-visible]:ring-indigo-500/60 ${spacing}`}
     >
-      <InputGroupAddon align="inline-start" className="pl-4">
-        {icon}
-      </InputGroupAddon>
+      {icon && (
+        <InputGroupAddon align="inline-start" className="pl-4">
+          {icon}
+        </InputGroupAddon>
+      )}
       <InputGroupInput
         type={type}
         name={name}
