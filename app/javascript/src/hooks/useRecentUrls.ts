@@ -7,6 +7,7 @@ interface RecentUrlResponse {
   alias: string | null;
   expires_at: string | null;
   created_at: string;
+  clicks_count: number;
 }
 
 const useRecentUrls = () => {

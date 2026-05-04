@@ -1,5 +1,6 @@
 class ShortUrl < ApplicationRecord
   belongs_to :user, optional: true
+  has_many :clicks, dependent: :destroy
 
   validates :long_url, presence: true, format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]), message: "must be a valid URL" }
   validates :alias, presence: true, uniqueness: true, format: { with: /\A[a-zA-Z0-9_-]+\z/, message: "only letters, numbers, hyphens, and underscores allowed" }
