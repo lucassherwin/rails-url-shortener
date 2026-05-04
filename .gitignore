@@ -42,4 +42,6 @@ yarn-debug.log*
 ssr-generated
 .env
 
+.playwright
+
 /config/app_environment_variables.rb
