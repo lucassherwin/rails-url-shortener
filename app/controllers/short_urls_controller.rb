@@ -17,8 +17,11 @@ class ShortUrlsController < ApplicationController
     end
   end
 
-  def show
-    @short_url = nil # TODO -> find by ID or alias
+  def redirect
+    short_url = ShortUrl.find_by!(alias: params[:alias])
+    redirect_to short_url.long_url, allow_other_host: true
+  rescue ActiveRecord::RecordNotFound
+    render plain: "Short URL not found", status: :not_found
   end
 
   def create

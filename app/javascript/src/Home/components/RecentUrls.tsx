@@ -24,12 +24,12 @@ const RecentUrls: React.FC = () => {
             >
               <div className="min-w-0">
                 <p className="text-sm truncate text-muted-foreground">{url.long_url}</p>
-                <p className="text-sm font-medium">{window.location.origin}/{url.alias}</p>
+                <p className="text-sm font-medium">{window.location.origin}/s/{url.alias}</p>
               </div>
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => navigator.clipboard.writeText(`${window.location.origin}/${url.alias}`)}
+                onClick={() => navigator.clipboard.writeText(`${window.location.origin}/s/${url.alias}`)}
                 className={`transition-opacity ${hoveredId === url.id ? "opacity-100" : "opacity-0"}`}
               >
                 Copy
