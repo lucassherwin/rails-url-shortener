@@ -13,12 +13,21 @@ class ShortUrlsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: short_urls }
+      format.json { render json: short_urls, only: [ :id, :alias, :long_url, :expires_at, :created_at, :clicks_count ] }
     end
   end
 
   def redirect
     short_url = ShortUrl.find_by!(alias: params[:alias])
+
+    TrackClickJob.perform_later(
+      short_url.id,
+      referrer:   request.referer,
+      user_agent: request.user_agent,
+      ip_address: request.remote_ip,
+      clicked_at: Time.current
+    )
+
     redirect_to short_url.long_url, allow_other_host: true
   rescue ActiveRecord::RecordNotFound
     render plain: "Short URL not found", status: :not_found

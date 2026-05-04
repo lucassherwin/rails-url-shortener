@@ -1,4 +1,4 @@
-.PHONY: help build up down clean restart logs console shell migrate test routes npm npx
+.PHONY: help build up down clean restart logs console shell migrate migrate-queue test routes npm npx
 
 export RAILS_MASTER_KEY ?= $(shell cat config/master.key 2>/dev/null)
 
@@ -35,6 +35,9 @@ shell: ## Open a bash shell in the app container (requires running container)
 	docker compose exec app bash
 
 migrate: ## Run pending database migrations (requires running container)
+	docker compose exec app bin/rails db:migrate
+
+migrate-queue: ## Run pending Solid Queue migrations in development (alias for migrate; production uses db:migrate:queue)
 	docker compose exec app bin/rails db:migrate
 
 test: ## Run the test suite (requires running container)

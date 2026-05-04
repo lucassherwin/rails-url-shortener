@@ -22,10 +22,13 @@ const RecentUrls: React.FC = () => {
               onMouseEnter={() => setHoveredId(url.id)}
               onMouseLeave={() => setHoveredId(null)}
             >
-              <div className="min-w-0">
+              <div className="min-w-0 flex-1">
                 <p className="text-sm truncate text-muted-foreground">{url.long_url}</p>
                 <p className="text-sm font-medium">{window.location.origin}/s/{url.alias}</p>
               </div>
+              <span className="text-xs text-muted-foreground whitespace-nowrap">
+                {url.clicks_count} {url.clicks_count === 1 ? "click" : "clicks"}
+              </span>
               <Button
                 variant="ghost"
                 size="sm"
