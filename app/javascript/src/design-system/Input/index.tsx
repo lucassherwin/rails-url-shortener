@@ -3,28 +3,44 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
+  InputGroupButton,
 } from "@/components/ui/input-group";
+import { cn } from "@/lib/utils";
+
+interface InputButtonProps {
+  onClick?: () => void;
+  variant?: "default" | "secondary" | "ghost";
+  label: string;
+  className?: string;
+  disabled?: boolean;
+}
 
 interface FormInputProps {
   icon?: React.ReactNode;
-  type: string;
+  iconAlign?: "inline-start" | "inline-end";
+  type?: string;
   name: string;
   placeholder: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  button?: InputButtonProps;
   required?: boolean;
   spacing?: string;
+  disabled?: boolean;
 }
 
 const Input: React.FC<FormInputProps> = ({
   icon,
-  type,
+  iconAlign,
+  type = "text",
   name,
   placeholder,
   value,
   onChange,
+  button,
   required,
   spacing = "mt-4",
+  disabled,
 }) => {
   return (
     <InputGroup
@@ -33,10 +49,11 @@ const Input: React.FC<FormInputProps> = ({
         has-[[data-slot=input-group-control]:focus-visible]:ring-indigo-500/60 ${spacing}`}
     >
       {icon && (
-        <InputGroupAddon align="inline-start" className="pl-4">
+        <InputGroupAddon align={iconAlign} className="pl-4">
           {icon}
         </InputGroupAddon>
       )}
+
       <InputGroupInput
         type={type}
         name={name}
@@ -44,8 +61,25 @@ const Input: React.FC<FormInputProps> = ({
         value={value}
         onChange={onChange}
         required={required}
+        disabled={disabled}
         className="text-white placeholder-white/60"
       />
+
+      {button && (
+        <InputGroupAddon align="inline-end" className="pr-4">
+          <InputGroupButton
+            onClick={button.onClick}
+            variant={button.variant}
+            disabled={button.disabled}
+            className={cn(
+              button.className,
+              button.disabled && "cursor-not-allowed",
+            )}
+          >
+            {button.label}
+          </InputGroupButton>
+        </InputGroupAddon>
+      )}
     </InputGroup>
   );
 };

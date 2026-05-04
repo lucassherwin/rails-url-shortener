@@ -3,7 +3,18 @@ class ShortUrlsController < ApplicationController
   before_action :set_short_url, only: [ :destroy ]
 
   def index
-    @short_urls = Current.user.short_urls.order(created_at: :desc)
+    short_urls = if Current.user
+      Current.user.short_urls.order(created_at: :desc).limit(10)
+    elsif session[:guest_token]
+      ShortUrl.where(guest_token: session[:guest_token]).order(created_at: :desc).limit(10)
+    else
+      []
+    end
+
+    respond_to do |format|
+      format.html
+      format.json { render json: short_urls }
+    end
   end
 
   def show
@@ -11,12 +22,17 @@ class ShortUrlsController < ApplicationController
   end
 
   def create
-    @short_url = Current.user.short_urls.build(short_url_params)
-    if @short_url.save
-      redirect_to short_urls_path, notice: "Short URL created."
+    if Current.user
+      @short_url = Current.user.short_urls.build(short_url_params)
     else
-      @short_urls = Current.user.short_urls.order(created_at: :desc)
-      render :index, status: :unprocessable_entity
+      token = (session[:guest_token] ||= SecureRandom.uuid)
+      @short_url = ShortUrl.new(short_url_params.merge(guest_token: token))
+    end
+
+    if @short_url.save
+      render json: @short_url, status: :created
+    else
+      render json: { errors: @short_url.errors.full_messages }, status: :unprocessable_entity
     end
   end
 

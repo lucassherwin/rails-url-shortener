@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_23_204703) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_04_000001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -27,9 +27,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_204703) do
     t.string "alias"
     t.datetime "created_at", null: false
     t.datetime "expires_at"
+    t.string "guest_token"
     t.string "long_url"
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.index ["guest_token"], name: "index_short_urls_on_guest_token"
     t.index ["user_id"], name: "index_short_urls_on_user_id"
   end
 
