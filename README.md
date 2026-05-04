@@ -1,24 +1,13 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Ruby on Rails based URL Shortener
 
-Things you may want to cover:
+The goal of this project was to build a simple URL shortener implemented in Rails
 
-* Ruby version
+This project features:
+- URL shortener with redirects
+- Dockerized environment
+- Async task queue
+- Authorization
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Built largely with shadcn component library
