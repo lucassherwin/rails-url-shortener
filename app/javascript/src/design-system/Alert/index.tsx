@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Alert as UIAlert,
   AlertAction,
@@ -15,6 +16,7 @@ interface AlertProps {
     onClick: () => void;
   };
   type?: "info" | "success" | "error";
+  className?: string;
 }
 
 const VARIANT_MAP: Record<
@@ -26,9 +28,9 @@ const VARIANT_MAP: Record<
   error: "destructive",
 };
 
-const Alert = ({ title, description, action, type = "info" }: AlertProps) => {
+const Alert = ({ title, description, action, type = "info", className }: AlertProps) => {
   return (
-    <UIAlert variant={VARIANT_MAP[type]}>
+    <UIAlert variant={VARIANT_MAP[type]} className={className}>
       <InfoIcon />
       {title && <AlertTitle>{title}</AlertTitle>}
       <AlertDescription>{description}</AlertDescription>

@@ -42,7 +42,7 @@ const SessionForm: React.FC<SessionFormProps> = ({
       title="Login"
       subtitle="Please sign in to continue"
     >
-      {alertMessage && <Alert description={alertMessage} />}
+      {alertMessage && <Alert description={alertMessage} type='error' className='mt-2' />}
 
       <Input
         icon={<Icon name="email" size={14} className="text-white/75" />}
