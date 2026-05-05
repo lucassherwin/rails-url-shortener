@@ -1,3 +1,11 @@
+export class ApiError extends Error {
+  errors: string[];
+  constructor(errors: string[]) {
+    super(errors.join(", "));
+    this.errors = errors;
+  }
+}
+
 interface UseFetchProps {
   url: string;
   method?: string;
@@ -16,14 +24,21 @@ const useFetch = ({ url, method = "GET", body }: UseFetchProps) => {
         method: method,
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json",
+          Accept: "application/json",
           "X-CSRF-Token": csrfToken(),
         },
-        body: method !== "GET" && resolvedBody ? JSON.stringify(resolvedBody) : undefined,
+        body:
+          method !== "GET" && resolvedBody
+            ? JSON.stringify(resolvedBody)
+            : undefined,
       });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch data");
+        const data = await response.json().catch(() => null);
+        const errors = Array.isArray(data?.errors)
+          ? data.errors
+          : ["Something went wrong"];
+        throw new ApiError(errors);
       }
 
       return await response.json();

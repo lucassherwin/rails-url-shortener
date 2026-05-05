@@ -1,13 +1,29 @@
 import React from "react";
 import Input from "@/design-system/Input";
+import Alert from "@/design-system/Alert";
 import { useShortenUrlContext } from "@/contexts/ShortenUrlContext";
 
 const UrlInput: React.FC = () => {
-  const { longUrl, setLongUrl, alias, setAlias, handleShortenUrl, isLoading } =
-    useShortenUrlContext();
+  const {
+    longUrl,
+    setLongUrl,
+    alias,
+    setAlias,
+    handleShortenUrl,
+    isLoading,
+    createError,
+  } = useShortenUrlContext();
 
   return (
     <>
+      {createError && (
+        <Alert
+          type="error"
+          description={createError.message}
+          className="mt-4"
+        />
+      )}
+
       <Input
         name="long_url"
         placeholder="Enter a long URL..."
@@ -27,6 +43,10 @@ const UrlInput: React.FC = () => {
         placeholder="Enter a custom alias (optional)..."
         value={alias}
         onChange={(e) => setAlias(e.target.value)}
+        error={!!createError && createError.type === "alias"}
+        helperText={
+          createError?.type === "alias" ? createError.message : undefined
+        }
       />
     </>
   );

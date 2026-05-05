@@ -3,7 +3,11 @@ import useRecentUrls from "@/hooks/useRecentUrls";
 import Card from "@/design-system/Card";
 import { Button } from "@/components/ui/button";
 
-const RecentUrls: React.FC = () => {
+interface RecentUrlsProps {
+  origin: string;
+}
+
+const RecentUrls: React.FC<RecentUrlsProps> = ({ origin }) => {
   const { data: urls, isLoading } = useRecentUrls();
   const [hoveredId, setHoveredId] = useState<number | null>(null);
 
@@ -24,7 +28,7 @@ const RecentUrls: React.FC = () => {
             >
               <div className="min-w-0 flex-1">
                 <p className="text-sm truncate text-muted-foreground">{url.long_url}</p>
-                <p className="text-sm font-medium">{window.location.origin}/s/{url.alias}</p>
+                <p className="text-sm font-medium">{origin}/s/{url.alias}</p>
               </div>
               <span className="text-xs text-muted-foreground whitespace-nowrap">
                 {url.clicks_count} {url.clicks_count === 1 ? "click" : "clicks"}
@@ -32,7 +36,7 @@ const RecentUrls: React.FC = () => {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => navigator.clipboard.writeText(`${window.location.origin}/s/${url.alias}`)}
+                onClick={() => navigator.clipboard.writeText(`${origin}/s/${url.alias}`)}
                 className={`transition-opacity ${hoveredId === url.id ? "opacity-100" : "opacity-0"}`}
               >
                 Copy

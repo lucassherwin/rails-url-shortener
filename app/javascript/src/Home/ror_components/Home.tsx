@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Card from "@/design-system/Card";
 import UrlInput from "../components/UrlInput";
 import RecentUrls from "../components/RecentUrls";
 import { ShortenUrlProvider } from "@/contexts/ShortenUrlContext";
 
-const queryClient = new QueryClient();
+interface HomeProps {
+  origin: string;
+}
 
-const Home: React.FC = () => {
+const Home: React.FC<HomeProps> = ({ origin }) => {
+  const [queryClient] = useState(() => new QueryClient());
+
   return (
     <QueryClientProvider client={queryClient}>
       <ShortenUrlProvider>
@@ -21,7 +25,7 @@ const Home: React.FC = () => {
               description="Shorten your long URLs with ease"
               content={<UrlInput />}
             />
-            <RecentUrls />
+            <RecentUrls origin={origin} />
           </div>
         </div>
       </ShortenUrlProvider>
