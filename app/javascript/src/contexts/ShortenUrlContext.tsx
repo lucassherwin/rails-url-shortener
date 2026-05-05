@@ -20,9 +20,13 @@ interface ShortenUrlContextValue {
   isLoading: boolean;
 }
 
-const ShortenUrlContext = createContext<ShortenUrlContextValue | undefined>(undefined);
+const ShortenUrlContext = createContext<ShortenUrlContextValue | undefined>(
+  undefined,
+);
 
-export const ShortenUrlProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const ShortenUrlProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [longUrl, setLongUrl] = useState("");
   const [alias, setAlias] = useState("");
   const { mutate, data, error, status } = useShortenUrl();
@@ -34,7 +38,18 @@ export const ShortenUrlProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   };
 
   return (
-    <ShortenUrlContext.Provider value={{ longUrl, setLongUrl, alias, setAlias, handleShortenUrl, data, error, isLoading }}>
+    <ShortenUrlContext.Provider
+      value={{
+        longUrl,
+        setLongUrl,
+        alias,
+        setAlias,
+        handleShortenUrl,
+        data,
+        error,
+        isLoading,
+      }}
+    >
       {children}
     </ShortenUrlContext.Provider>
   );
@@ -43,7 +58,9 @@ export const ShortenUrlProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 export const useShortenUrlContext = () => {
   const context = useContext(ShortenUrlContext);
   if (!context) {
-    throw new Error("useShortenUrlContext must be used within a ShortenUrlProvider");
+    throw new Error(
+      "useShortenUrlContext must be used within a ShortenUrlProvider",
+    );
   }
   return context;
 };

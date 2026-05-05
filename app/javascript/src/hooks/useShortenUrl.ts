@@ -22,7 +22,11 @@ const useShortenUrl = () => {
     method: "POST",
   });
 
-  const { data, error, status, mutate } = useMutation<ShortenUrlResponse, Error, ShortenUrlParams>({
+  const { data, error, status, mutate } = useMutation<
+    ShortenUrlResponse,
+    Error,
+    ShortenUrlParams
+  >({
     mutationFn: shortenUrl,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["recentUrls"] });

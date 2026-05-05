@@ -22,7 +22,12 @@ const UrlInput: React.FC = () => {
         disabled={isLoading}
       />
 
-      <Input name="alias" placeholder="Enter a custom alias (optional)..." value={alias} onChange={(e) => setAlias(e.target.value)} />
+      <Input
+        name="alias"
+        placeholder="Enter a custom alias (optional)..."
+        value={alias}
+        onChange={(e) => setAlias(e.target.value)}
+      />
     </>
   );
 };
