@@ -12,6 +12,8 @@ interface ShortenUrlResponse {
 interface ShortenUrlContextValue {
   longUrl: string;
   setLongUrl: (url: string) => void;
+  alias: string;
+  setAlias: (alias: string) => void;
   handleShortenUrl: () => void;
   data: ShortenUrlResponse | undefined;
   error: Error | null;
@@ -22,16 +24,17 @@ const ShortenUrlContext = createContext<ShortenUrlContextValue | undefined>(unde
 
 export const ShortenUrlProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [longUrl, setLongUrl] = useState("");
+  const [alias, setAlias] = useState("");
   const { mutate, data, error, status } = useShortenUrl();
 
   const isLoading = status === "pending";
 
   const handleShortenUrl = () => {
-    mutate({ long_url: longUrl });
+    mutate({ long_url: longUrl, alias });
   };
 
   return (
-    <ShortenUrlContext.Provider value={{ longUrl, setLongUrl, handleShortenUrl, data, error, isLoading }}>
+    <ShortenUrlContext.Provider value={{ longUrl, setLongUrl, alias, setAlias, handleShortenUrl, data, error, isLoading }}>
       {children}
     </ShortenUrlContext.Provider>
   );
