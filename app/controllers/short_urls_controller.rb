@@ -1,9 +1,19 @@
 class ShortUrlsController < ApplicationController
-  allow_unauthenticated_access
+  allow_unauthenticated_access except: :index
+
   before_action :set_short_url, only: [ :destroy ]
 
   def index
-    short_urls = if Current.user
+    @short_urls = Current.user.short_urls.order(created_at: :desc).limit(10)
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @short_urls, only: [ :id, :alias, :long_url, :expires_at, :created_at, :clicks_count ] }
+    end
+  end
+
+  def recent
+    @short_urls = if Current.user
       Current.user.short_urls.order(created_at: :desc).limit(10)
     elsif session[:guest_token]
       ShortUrl.where(guest_token: session[:guest_token]).order(created_at: :desc).limit(10)
@@ -13,7 +23,7 @@ class ShortUrlsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: short_urls, only: [ :id, :alias, :long_url, :expires_at, :created_at, :clicks_count ] }
+      format.json { render json: @short_urls, only: [ :id, :alias, :long_url, :expires_at, :created_at, :clicks_count ] }
     end
   end
 

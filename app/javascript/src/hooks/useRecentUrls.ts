@@ -11,7 +11,7 @@ interface RecentUrlResponse {
 }
 
 const useRecentUrls = () => {
-  const { fetchData } = useFetch({ url: "/short_urls", method: "GET" });
+  const { fetchData } = useFetch({ url: "/short_urls/recent", method: "GET" });
 
   return useQuery<RecentUrlResponse[]>({
     queryKey: ["recentUrls"],

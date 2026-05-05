@@ -51,3 +51,6 @@ npm: ## Run npm install inside the app container (requires running container)
 
 npx: ## Run an arbitrary npx command inside the app container (requires running container)
 	docker compose exec app npx $(filter-out $@,$(MAKECMDGOALS))
+
+generate-packs: ## Generate React on Rails packs (requires running container)
+	docker compose exec app bundle exec rake react_on_rails:generate_packs

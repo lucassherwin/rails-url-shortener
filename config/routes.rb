@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   resource :sign_up
   resources :short_urls, only: [ :index, :create, :destroy ]
+  get "short_urls/recent", to: "short_urls#recent", as: :recent_short_urls
 
   get "/s/:alias", to: "short_urls#redirect", as: :short_url_redirect
 end
